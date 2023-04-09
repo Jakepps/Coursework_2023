@@ -71,7 +71,7 @@ legend("topleft", legend = data$Округа[1:(nrow(data)/2)], fill = colors2[1
 legend("topright", legend = data$Округа[(nrow(data)/2 + 1):nrow(data)], fill = colors2[(length(colors2)/2 + 1):length(colors2)], cex = 0.2)
 
 all_data2<-data.frame(Округ=data$Округа, ОбщееКоличество=data$'2022')
-all_data2[all_data2$ОбщееКоличество/1000 > 5000, "ОбщееКоличество"] <- NA
+#all_data2[all_data2$ОбщееКоличество/1000 > 5000, "ОбщееКоличество"] <- NA
 #plot(all_data2$ОбщееКоличество/1000, type="b", pch=19, col="navyblue", xaxt="n", xlim=c(0,87), ylim=c(0,20122), xlab='', ylab="Количество человек (тыс.)", main="Общее количество приезжих по страннам за 9 лет")
 #axis(1, at = 1:nrow(all_data2), labels = all_data2$Округ, las = 2)
 
@@ -79,5 +79,5 @@ plot(all_data2$ОбщееКоличество/1000, type="n", xaxt="n", xlim=c(0
 points(1:nrow(all_data2), all_data2$ОбщееКоличество/1000, type="b", pch=19, col=colors2)
 
 legend("topright", legend = data$Округа[1:(nrow(data)/2)], fill = colors2[1:length(colors2)/2], cex = 0.35)
-legend(x = 60, y = 20900, legend = data$Округа[(nrow(data)/2 + 1):nrow(data)], fill = colors2[(length(colors2)/2 + 1):length(colors2)], cex = 0.3)
+legend(x = 55, y = 20900, legend = data$Округа[(nrow(data)/2 + 1):nrow(data)], fill = colors2[(length(colors2)/2 + 1):length(colors2)], cex = 0.3)
 
