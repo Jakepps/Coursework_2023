@@ -58,7 +58,7 @@ all_inbound_tours<-inbound_tours.frame(Страна=inbound_tours$Страна, 
 
 plot(all_inbound_tours$ОбщееКоличество, type="b", pch=19, col="navyblue", xaxt="n",xlim=c(0,66), ylim=c(0,25648.07),xlab='', ylab="Количество человек", main="Общее количество приезжих по страннам за 9 лет")
 
-axis(1,at = 1:nrow(all_inbound_tours), labels=all_inbound_tours$Страна,las=2)
+axis(1, at = 1:nrow(all_inbound_tours), labels=all_inbound_tours$Страна,las=2)
 
 
 
@@ -70,9 +70,14 @@ pie(data$'2022',  labels=NA, radius = 1, col = colors2, clockwise = TRUE, main =
 legend("topleft", legend = data$Округа[1:(nrow(data)/2)], fill = colors2[1:length(colors2)/2], cex = 0.4)
 legend("topright", legend = data$Округа[(nrow(data)/2 + 1):nrow(data)], fill = colors2[(length(colors2)/2 + 1):length(colors2)], cex = 0.2)
 
-  
-  
-  
-  
-  
-  
+all_data2<-data.frame(Округ=data$Округа, ОбщееКоличество=data$'2022')
+all_data2[all_data2$ОбщееКоличество/1000 > 5000, "ОбщееКоличество"] <- NA
+#plot(all_data2$ОбщееКоличество/1000, type="b", pch=19, col="navyblue", xaxt="n", xlim=c(0,87), ylim=c(0,20122), xlab='', ylab="Количество человек (тыс.)", main="Общее количество приезжих по страннам за 9 лет")
+#axis(1, at = 1:nrow(all_data2), labels = all_data2$Округ, las = 2)
+
+plot(all_data2$ОбщееКоличество/1000, type="n", xaxt="n", xlim=c(0,87), ylim=c(0,20122), xlab='', ylab="Количество человек (тыс.)", main="Общее количесво человек, путешевствующих по областям в 2022 году")
+points(1:nrow(all_data2), all_data2$ОбщееКоличество/1000, type="b", pch=19, col=colors2)
+
+legend("topright", legend = data$Округа[1:(nrow(data)/2)], fill = colors2[1:length(colors2)/2], cex = 0.35)
+legend(x = 60, y = 20900, legend = data$Округа[(nrow(data)/2 + 1):nrow(data)], fill = colors2[(length(colors2)/2 + 1):length(colors2)], cex = 0.3)
+
