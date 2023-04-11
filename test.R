@@ -1,5 +1,8 @@
 library(readxl)
+#для компа
 setwd("C:/Users/nagal/OneDrive/GitHub/coursework2023/Данные")
+#для ноута 
+#setwd("C:/Users/jakep/GitHub/coursework2023/Данные")
 
 inbound_tours<-read_excel("Въездные турпоездки.xlsx")
 #inbound_tours2<-inbound_tours[,2:10]
@@ -80,4 +83,14 @@ points(1:nrow(all_data2), all_data2$ОбщееКоличество/1000, type="b
 
 legend("topright", legend = data$Округа[1:(nrow(data)/2)], fill = colors2[1:length(colors2)/2], cex = 0.35)
 legend(x = 55, y = 20900, legend = data$Округа[(nrow(data)/2 + 1):nrow(data)], fill = colors2[(length(colors2)/2 + 1):length(colors2)], cex = 0.3)
+
+
+
+data2<-read_excel("Кэшбэк от Ростуризма общее.xlsx")
+col2<-rainbow(length(data2$Округа))
+
+plot(data2$'2022'/1000, type="n", xaxt="n", xlim=c(0,9), ylim=c(0, 42692), xlab='', ylab="Количество человек (тыс.)", main="Общее количесво человек, путешевствующих по общим областям в 2022 году")
+points(1:nrow(data2), data2$'2022'/1000, type="b", pch=19, col=col2)
+
+legend("topright", legend = data2$Округа, fill = col, cex = 0.5)
 
