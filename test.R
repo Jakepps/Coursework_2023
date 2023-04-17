@@ -9,8 +9,8 @@ inbound_tours<-read_excel("Въездные турпоездки.xlsx")
 colors <- rainbow(length(inbound_tours$Страна))
 #par(mfrow=c(1,9))
 
-
-#пироговые диаграммы по число въездных туристских поездок\nиностранных граждан в Россию в N году
+#ВЪЕЗДНЫЕ
+#пироговые диаграммы по число въездных туристских поездок иностранных граждан в Россию в N году
 pie(inbound_tours$'2014',  labels=NA, radius = 1, col = colors, clockwise = TRUE,
     main = "Число въездных туристских поездок\nиностранных граждан в Россию в 2014 году")
 legend("topleft", legend = inbound_tours$Страна[1:(nrow(inbound_tours)/2)], 
@@ -84,6 +84,8 @@ legend("topright", legend = inbound_tours$Страна[(nrow(inbound_tours)/2 + 
 
 
 #Общее количество приезжих по страннам за 9 лет
+inbound_tours<-read_excel("Въездные турпоездки.xlsx")
+
 all_inbound_tours<-data.frame(Страна=inbound_tours$Страна, ОбщееКоличество=rowSums(inbound_tours[,2:10]))
 
 plot(all_inbound_tours$ОбщееКоличество, type="b", pch=19, col="navyblue",
@@ -91,6 +93,93 @@ plot(all_inbound_tours$ОбщееКоличество, type="b", pch=19, col="na
      main="Общее количество приезжих по страннам за 9 лет")
 
 axis(1, at = 1:nrow(all_inbound_tours), labels=all_inbound_tours$Страна,las=2)
+
+#ВЫЕЗДНЫЕ
+
+field_tours<-read_excel("Выездные турпоездки.xlsx")
+#inbound_tours2<-inbound_tours[,2:10]
+field_tours_colors <- rainbow(length(field_tours$Страна))
+
+#пироговые диаграммы по число выездных туристских поездок иностранных граждан в Россию в N году
+pie(field_tours$'2014',  labels=NA, radius = 1, col = field_tours_colors, clockwise = TRUE,
+    main = "Число выездных туристских поездок\nиностранных граждан в Россию в 2014 году")
+legend("topleft", legend = field_tours$Страна[1:(nrow(field_tours)/2)], 
+       fill = field_tours_colors[1:length(field_tours_colors)/2], cex = 0.47)
+legend("topright", legend = field_tours$Страна[(nrow(field_tours)/2 + 1):nrow(field_tours)],
+       fill = field_tours_colors[(length(field_tours_colors)/2 + 1):length(field_tours_colors)], cex = 0.47)
+
+
+pie(field_tours$'2015',  labels=NA, radius = 1, col = field_tours_colors, clockwise = TRUE,
+    main = "Число выездных туристских поездок\nиностранных граждан в Россию в 2015 году")
+legend("topleft", legend = field_tours$Страна[1:(nrow(field_tours)/2)],
+       fill = field_tours_colors[1:length(field_tours_colors)/2], cex = 0.47)
+legend("topright", legend = field_tours$Страна[(nrow(field_tours)/2 + 1):nrow(field_tours)],
+       fill = field_tours_colors[(length(field_tours_colors)/2 + 1):length(field_tours_colors)], cex = 0.47)
+
+
+pie(field_tours$'2016',  labels=NA, radius = 1, col = field_tours_colors, clockwise = TRUE,
+    main = "Число выездных туристских поездок\nиностранных граждан в Россию в 2016 году")
+legend("topleft", legend = field_tours$Страна[1:(nrow(field_tours)/2)], 
+       fill = field_tours_colors[1:length(field_tours_colors)/2], cex = 0.47)
+legend("topright", legend = field_tours$Страна[(nrow(field_tours)/2 + 1):nrow(field_tours)], 
+       fill = field_tours_colors[(length(field_tours_colors)/2 + 1):length(field_tours_colors)], cex = 0.47)
+
+
+pie(field_tours$'2017',  labels=NA, radius = 1, col = field_tours_colors, clockwise = TRUE,
+    main = "Число выездных туристских поездок\nиностранных граждан в Россию в 2017 году")
+legend("topleft", legend = field_tours$Страна[1:(nrow(field_tours)/2)],
+       fill = field_tours_colors[1:length(field_tours_colors)/2], cex = 0.47)
+legend("topright", legend = field_tours$Страна[(nrow(field_tours)/2 + 1):nrow(field_tours)],
+       fill = field_tours_colors[(length(field_tours_colors)/2 + 1):length(field_tours_colors)], cex = 0.47)
+
+
+pie(field_tours$'2018',  labels=NA, radius = 1, col = field_tours_colors, clockwise = TRUE, 
+    main = "Число выездных туристских поездок\nиностранных граждан в Россию в 2018 году")
+legend("topleft", legend = field_tours$Страна[1:(nrow(field_tours)/2)], 
+       fill = field_tours_colors[1:length(field_tours_colors)/2], cex = 0.47)
+legend("topright", legend = field_tours$Страна[(nrow(field_tours)/2 + 1):nrow(field_tours)],
+       fill = field_tours_colors[(length(field_tours_colors)/2 + 1):length(field_tours_colors)], cex = 0.47)
+
+
+pie(field_tours$'2019',  labels=NA, radius = 1, col = field_tours_colors, clockwise = TRUE,
+    main = "Число выездных туристских поездок\nиностранных граждан в Россию в 2019 году")
+legend("topleft", legend = field_tours$Страна[1:(nrow(field_tours)/2)], 
+       fill = field_tours_colors[1:length(field_tours_colors)/2], cex = 0.47)
+legend("topright", legend = field_tours$Страна[(nrow(field_tours)/2 + 1):nrow(field_tours)],
+       fill = field_tours_colors[(length(field_tours_colors)/2 + 1):length(field_tours_colors)], cex = 0.47)
+
+
+pie(field_tours$'2020',  labels=NA, radius = 1, col = field_tours_colors, clockwise = TRUE,
+    main = "Число выездных туристских поездок\nиностранных граждан в Россию в 2020 году")
+legend("topleft", legend = field_tours$Страна[1:(nrow(field_tours)/2)],
+       fill = field_tours_colors[1:length(field_tours_colors)/2], cex = 0.47)
+legend("topright", legend = field_tours$Страна[(nrow(field_tours)/2 + 1):nrow(field_tours)],
+       fill = field_tours_colors[(length(field_tours_colors)/2 + 1):length(field_tours_colors)], cex = 0.47)
+
+
+pie(field_tours$'2021',  labels=NA, radius = 1, col = field_tours_colors, clockwise = TRUE,
+    main = "Число выездных туристских поездок\nиностранных граждан в Россию в 2021 году")
+legend("topleft", legend = field_tours$Страна[1:(nrow(field_tours)/2)], 
+       fill = field_tours_colors[1:length(field_tours_colors)/2], cex = 0.47)
+legend("topright", legend = field_tours$Страна[(nrow(field_tours)/2 + 1):nrow(field_tours)],
+       fill = field_tours_colors[(length(field_tours_colors)/2 + 1):length(field_tours_colors)], cex = 0.47)
+
+
+pie(field_tours$'2022.5',  labels=NA, radius = 1, col = field_tours_colors, clockwise = TRUE,
+    main = "Число выездных туристских поездок\nиностранных граждан в Россию в 2022 году")
+legend("topleft", legend = field_tours$Страна[1:(nrow(field_tours)/2)],
+       fill = field_tours_colors[1:length(field_tours_colors)/2], cex = 0.47)
+legend("topright", legend = field_tours$Страна[(nrow(field_tours)/2 + 1):nrow(field_tours)],
+       fill = field_tours_colors[(length(field_tours_colors)/2 + 1):length(field_tours_colors)], cex = 0.47)
+
+#Общее количество уезжих по страннам за 9 лет
+all_field_tours<-data.frame(Страна=field_tours$Страна, ОбщееКоличество=rowSums(field_tours[,2:10]))
+
+plot(all_field_tours$ОбщееКоличество, type="b", pch=19, col="navyblue",
+     xaxt="n",xlim=c(0,66), ylim=c(0,34690),xlab='', ylab="Количество человек",
+     main="Общее количество приезжих по страннам за 9 лет")
+
+axis(1, at = 1:nrow(all_field_tours), labels=all_field_tours$Страна,las=2)
 
 
 
