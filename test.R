@@ -1,6 +1,7 @@
 library(readxl)
 library(tidyr)
 library(ggplot2)
+library(dplyr)
 
 #для компа
 setwd("C:/Users/nagal/OneDrive/GitHub/coursework2023/Данные")
@@ -219,18 +220,25 @@ legend(x=60, y = max(In_Russian_2022$ОбщееКоличество/1000), legen
 
 
 #Путешествия по россии за 2022 общее по округам
-In_Russian_all<-read_excel("Внутри России общее.xlsx")
+In_Russian_all <- read_excel("Внутри России общее.xlsx")
+In_Russian_all <- In_Russian_all %>% mutate(row = row_number())
 
-Color_in_Russian_all<-rainbow(length(In_Russian_all$Округа))
-Color_in_Russian_all <- c("black", Color_in_Russian_all[-1])
+Color_in_Russian_all <- rainbow(length(In_Russian_all$Округа))
 
-plot(In_Russian_all$'2022'/1000, type="n", xaxt="n", xlim=c(0,9), ylim=c(0, max(In_Russian_all$'2022'/1000)), 
-     xlab='', ylab="Количество человек (тыс.)",
-     main="Общее количесво человек, путешевствующих по общим областям в 2022 году")
-points(1:nrow(In_Russian_all), In_Russian_all$'2022'/1000, type="b", pch=19, col=Color_in_Russian_all)
-axis(side = 1, at = 1:nrow(In_Russian_all), tcl = 0.2, labels = FALSE)
+ggplot(In_Russian_all, aes(x = row, y = `2022` / 1000, color = Округа, group = 1)) +
+  geom_line(color = "black", size = 0.3) +
+  geom_point(shape = 19) +
+  scale_x_continuous(name = "", breaks = 1:nrow(In_Russian_all)) +
+  scale_y_continuous(name = "Количество человек (тыс.)", limits = c(0, max(In_Russian_all$'2022'/1000))) +
+  labs(title = "Общее количесво человек, путешевствующих по общим областям в 2022 году") +
+  theme_bw() +
+  guides(color=guide_legend(title="Округа")) + 
+  scale_color_manual(name = "Округа", values = Color_in_Russian_all)
 
-legend("topright", legend = In_Russian_all$Округа, fill = Color_in_Russian_all, cex = 0.8)
+
+legend <- In_Russian_all %>% select(Округа) %>% unique()
+ggplot2::guides(color=guide_legend(title="Округа")) + 
+  scale_color_manual(name = "Округа", values = Color_in_Russian_all) 
 
 
 #Туриндустрия
