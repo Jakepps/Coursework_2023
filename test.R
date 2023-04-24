@@ -232,6 +232,7 @@ axis(side = 1, at = 1:nrow(In_Russian_all), tcl = 0.2, labels = FALSE)
 
 legend("topright", legend = In_Russian_all$Округа, fill = Color_in_Russian_all, cex = 0.8)
 
+
 #Туриндустрия
 
 data<-read_excel("Туриндустрия.xlsx")
@@ -258,5 +259,37 @@ number_organ_minus<- rbind(data[3:3, ])
 number_organ_minus_long<-gather(number_organ_minus,key="Год",value="Количество", -Наименование)
 
 ggplot(number_organ_minus_long, aes(x = Год, y = Количество, fill = Наименование)) + 
+  geom_bar(stat = "identity", position = "dodge")
+
+#Выручка
+revenue<- rbind(data[4:4, ])
+
+revenue_long<-gather(revenue,key="Год",value="Количество", -Наименование)
+
+ggplot(revenue_long, aes(x = Год, y = Количество, fill = Наименование)) + 
+  geom_bar(stat = "identity", position = "dodge")
+
+#Прибыль
+revenue_plus<- rbind(data[5:5, ])
+
+revenue_plus_long<-gather(revenue_plus,key="Год",value="Количество", -Наименование)
+
+ggplot(revenue_plus_long, aes(x = Год, y = Количество, fill = Наименование)) + 
+  geom_bar(stat = "identity", position = "dodge")
+
+#Убыток
+revenue_minus<- rbind(data[6:6, ])
+
+revenue_minus_long<-gather(revenue_minus,key="Год",value="Количество", -Наименование)
+
+ggplot(revenue_minus_long, aes(x = Год, y = Количество, fill = Наименование)) + 
+  geom_bar(stat = "identity", position = "dodge")
+
+#NFR(прибыль минус убыток)
+NFR<- rbind(data[7:7, ])
+
+NFR_long<-gather(NFR,key="Год",value="Количество", -Наименование)
+
+ggplot(NFR_long, aes(x = Год, y = Количество, fill = Наименование)) + 
   geom_bar(stat = "identity", position = "dodge")
 
