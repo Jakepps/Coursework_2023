@@ -1,4 +1,7 @@
 library(readxl)
+library(tidyr)
+library(ggplot2)
+
 #для компа
 setwd("C:/Users/nagal/OneDrive/GitHub/coursework2023/Данные")
 #для ноута 
@@ -229,4 +232,31 @@ axis(side = 1, at = 1:nrow(In_Russian_all), tcl = 0.2, labels = FALSE)
 
 legend("topright", legend = In_Russian_all$Округа, fill = Color_in_Russian_all, cex = 0.8)
 
+#Туриндустрия
+
+data<-read_excel("Туриндустрия.xlsx")
+
+#Все организации
+number_organ<- rbind(data[1:1, ])
+
+number_organ_long<-gather(number_organ,key="Год",value="Количество", -Наименование)
+
+ggplot(number_organ_long, aes(x = Год, y = Количество, fill = Наименование)) + 
+  geom_bar(stat = "identity", position = "dodge")
+
+#Прибыльные
+number_organ_plus<- rbind(data[2:2, ])
+
+number_organ_plus_long<-gather(number_organ_plus,key="Год",value="Количество", -Наименование)
+
+ggplot(number_organ_plus_long, aes(x = Год, y = Количество, fill = Наименование)) + 
+  geom_bar(stat = "identity", position = "dodge")
+
+#Убыточные
+number_organ_minus<- rbind(data[3:3, ])
+
+number_organ_minus_long<-gather(number_organ_minus,key="Год",value="Количество", -Наименование)
+
+ggplot(number_organ_minus_long, aes(x = Год, y = Количество, fill = Наименование)) + 
+  geom_bar(stat = "identity", position = "dodge")
 
