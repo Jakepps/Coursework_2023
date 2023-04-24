@@ -182,7 +182,7 @@ legend("topright", legend = field_tours$Страна[(nrow(field_tours)/2 + 1):n
 all_field_tours<-data.frame(Страна=field_tours$Страна, ОбщееКоличество=rowSums(field_tours[,2:10]))
 
 plot(all_field_tours$ОбщееКоличество, type="b", pch=19, col="navyblue",
-     xaxt="n",xlim=c(0,66), ylim=c(0,34690),xlab='', ylab="Количество человек",
+     xaxt="n",xlim=c(0,66), ylim=c(0,max(all_field_tours$ОбщееКоличество)),xlab='', ylab="Количество человек",
      main="Общее количество приезжих по страннам за 9 лет")
 
 axis(1, at = 1:nrow(all_field_tours), labels=all_field_tours$Страна,las=2)
@@ -194,16 +194,11 @@ In_Russian<-read_excel("Внутри России.xlsx")
 Colors_in_russian <- rainbow(length(In_Russian$Округа))
 Colors_in_russian <- c("black", Colors_in_russian[-1])
 
-#пироговая - кринж
-#pie(In_Russian$'2022',  labels=NA, radius = 1, col = Colors_in_russian, clockwise = TRUE, main = "")
-#legend("topleft", legend = In_Russian$Округа[1:(nrow(In_Russian)/2)],
-#       fill = Colors_in_russian[1:length(Colors_in_russian)/2], cex = 0.35)
-#legend("topright", legend = In_Russian$Округа[(nrow(In_Russian)/2 + 1):nrow(In_Russian)],
-#       fill = Colors_in_russian[(length(Colors_in_russian)/2 + 1):length(Colors_in_russian)], cex = 0.35)
-#точечный график за 2022
 In_Russian_2022<-data.frame(Округ=In_Russian$Округа, ОбщееКоличество=In_Russian$'2022')
 
+#без ggplot
 #если убрать выбросы жесткие,  1000
+
 In_Russian_2022<- In_Russian_2022[In_Russian_2022$ОбщееКоличество/1000<1000,]
 
 plot(In_Russian_2022$ОбщееКоличество/1000, type="n", xaxt="n", xlim=c(0,length(In_Russian_2022$Округ)+20), 
@@ -217,6 +212,24 @@ legend("topright", legend = In_Russian$Округа[1:(nrow(In_Russian)/2)],
 legend(x=60, y = max(In_Russian_2022$ОбщееКоличество/1000), legend = In_Russian$Округа[(nrow(In_Russian)/2 + 1):nrow(In_Russian)],
        fill = Colors_in_russian[(length(Colors_in_russian)/2 + 1):length(Colors_in_russian)], cex = 0.25)
 #x = 68, y = 20900
+
+#с ggplot
+Colors_in_russian <- rainbow(length(In_Russian$Округа))
+
+# если убрать выбросы жесткие,  1000
+In_Russian_2022 <- In_Russian_2022[In_Russian_2022$ОбщееКоличество/1000 < 1000,]
+
+ggplot(In_Russian_2022, aes(x = seq_along(ОбщееКоличество), y = ОбщееКоличество / 1000, color = Округ)) +
+  geom_line(color = "black", size = 0.3) +
+  geom_point(shape = 19) +
+  scale_x_continuous(name = "", breaks = seq_along(In_Russian_2022$Округ)) +
+  scale_y_continuous(name = "Количество человек (тыс.)", limits = c(0, max(In_Russian_2022$ОбщееКоличество/1000))) +
+  labs(title = "Общее количесво человек, путешевствующих по областям в 2022 году") +
+  theme_bw()
+
+legend <- In_Russian %>% select(Округа) %>% unique()
+ggplot2::guides(color = guide_legend(title = "Округа")) + 
+  scale_color_manual(name = "Округа", values = Colors_in_russian)
 
 
 #Путешествия по россии за 2022 общее по округам
@@ -243,10 +256,10 @@ ggplot2::guides(color=guide_legend(title="Округа")) +
 
 #Туриндустрия
 
-data<-read_excel("Туриндустрия.xlsx")
+travel_industry<-read_excel("Туриндустрия.xlsx")
 
 #Все организации
-number_organ<- rbind(data[1:1, ])
+number_organ<- rbind(travel_industry[1:1, ])
 
 number_organ_long<-gather(number_organ,key="Год",value="Количество", -Наименование)
 
@@ -254,7 +267,7 @@ ggplot(number_organ_long, aes(x = Год, y = Количество, fill = На�
   geom_bar(stat = "identity", position = "dodge")
 
 #Прибыльные
-number_organ_plus<- rbind(data[2:2, ])
+number_organ_plus<- rbind(travel_industry[2:2, ])
 
 number_organ_plus_long<-gather(number_organ_plus,key="Год",value="Количество", -Наименование)
 
@@ -262,7 +275,7 @@ ggplot(number_organ_plus_long, aes(x = Год, y = Количество, fill = 
   geom_bar(stat = "identity", position = "dodge")
 
 #Убыточные
-number_organ_minus<- rbind(data[3:3, ])
+number_organ_minus<- rbind(travel_industry[3:3, ])
 
 number_organ_minus_long<-gather(number_organ_minus,key="Год",value="Количество", -Наименование)
 
@@ -270,7 +283,7 @@ ggplot(number_organ_minus_long, aes(x = Год, y = Количество, fill =
   geom_bar(stat = "identity", position = "dodge")
 
 #Выручка
-revenue<- rbind(data[4:4, ])
+revenue<- rbind(travel_industry[4:4, ])
 
 revenue_long<-gather(revenue,key="Год",value="Количество", -Наименование)
 
@@ -278,7 +291,7 @@ ggplot(revenue_long, aes(x = Год, y = Количество, fill = Наиме
   geom_bar(stat = "identity", position = "dodge")
 
 #Прибыль
-revenue_plus<- rbind(data[5:5, ])
+revenue_plus<- rbind(travel_industry[5:5, ])
 
 revenue_plus_long<-gather(revenue_plus,key="Год",value="Количество", -Наименование)
 
@@ -286,7 +299,7 @@ ggplot(revenue_plus_long, aes(x = Год, y = Количество, fill = На�
   geom_bar(stat = "identity", position = "dodge")
 
 #Убыток
-revenue_minus<- rbind(data[6:6, ])
+revenue_minus<- rbind(travel_industry[6:6, ])
 
 revenue_minus_long<-gather(revenue_minus,key="Год",value="Количество", -Наименование)
 
@@ -294,7 +307,7 @@ ggplot(revenue_minus_long, aes(x = Год, y = Количество, fill = На
   geom_bar(stat = "identity", position = "dodge")
 
 #NFR(прибыль минус убыток)
-NFR<- rbind(data[7:7, ])
+NFR<- rbind(travel_industry[7:7, ])
 
 NFR_long<-gather(NFR,key="Год",value="Количество", -Наименование)
 
@@ -303,7 +316,7 @@ ggplot(NFR_long, aes(x = Год, y = Количество, fill = Наимено
 
 #Ввод в действие объектов туризма с отелями
 
-tourism_facilities<-data[9:14,]
+tourism_facilities<-travel_industry[9:14,]
 
 tourism_facilities_long <- gather(tourism_facilities, key = "Год", value = "Значение", -Наименование)
 
@@ -316,7 +329,7 @@ ggplot(tourism_facilities_long, aes(x = Год, y = Значение, fill = Н�
 
 #Ввод в действие объектов туризма без отелей
 
-tourism_facilities<-data[10:14,]
+tourism_facilities<-travel_industry[10:14,]
 
 tourism_facilities_long <- gather(tourism_facilities, key = "Год", value = "Значение", -Наименование)
 
