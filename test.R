@@ -224,7 +224,7 @@ In_Russian_all<-read_excel("Внутри России общее.xlsx")
 Color_in_Russian_all<-rainbow(length(In_Russian_all$Округа))
 Color_in_Russian_all <- c("black", Color_in_Russian_all[-1])
 
-plot(In_Russian_all$'2022'/1000, type="n", xaxt="n", xlim=c(0,9), ylim=c(0, 42692), 
+plot(In_Russian_all$'2022'/1000, type="n", xaxt="n", xlim=c(0,9), ylim=c(0, max(In_Russian_all$'2022'/1000)), 
      xlab='', ylab="Количество человек (тыс.)",
      main="Общее количесво человек, путешевствующих по общим областям в 2022 году")
 points(1:nrow(In_Russian_all), In_Russian_all$'2022'/1000, type="b", pch=19, col=Color_in_Russian_all)
@@ -292,4 +292,30 @@ NFR_long<-gather(NFR,key="Год",value="Количество", -Наимено�
 
 ggplot(NFR_long, aes(x = Год, y = Количество, fill = Наименование)) + 
   geom_bar(stat = "identity", position = "dodge")
+
+#Ввод в действие объектов туризма с отелями
+
+tourism_facilities<-data[9:14,]
+
+tourism_facilities_long <- gather(tourism_facilities, key = "Год", value = "Значение", -Наименование)
+
+ggplot(tourism_facilities_long, aes(x = Год, y = Значение, fill = Наименование)) + 
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Ввод в действие объектов туризма за период с 2014 по 2021 год",
+       x = "Год",
+       y = "Значение") +
+  theme_bw()
+
+#Ввод в действие объектов туризма без отелей
+
+tourism_facilities<-data[10:14,]
+
+tourism_facilities_long <- gather(tourism_facilities, key = "Год", value = "Значение", -Наименование)
+
+ggplot(tourism_facilities_long, aes(x = Год, y = Значение, fill = Наименование)) + 
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Ввод в действие объектов туризма за период с 2014 по 2021 год",
+       x = "Год",
+       y = "Значение") +
+  theme_bw()
 
