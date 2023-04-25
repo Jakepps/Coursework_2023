@@ -4,9 +4,9 @@ library(ggplot2)
 library(dplyr)
 
 #для компа
-setwd("C:/Users/nagal/OneDrive/GitHub/coursework2023/Данные")
+setwd("C:/Users/nagal/OneDrive/GitHub/Coursework_2023/Данные")
 #для ноута 
-#setwd("C:/Users/jakep/GitHub/coursework2023/Данные")
+#setwd("C:/Users/jakep/GitHub/Coursework_2023/Данные")
 
 inbound_tours<-read_excel("Въездные турпоездки.xlsx")
 
