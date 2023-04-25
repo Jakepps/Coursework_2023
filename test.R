@@ -9,7 +9,7 @@ setwd("C:/Users/nagal/OneDrive/GitHub/coursework2023/Данные")
 #setwd("C:/Users/jakep/GitHub/coursework2023/Данные")
 
 inbound_tours<-read_excel("Въездные турпоездки.xlsx")
-#inbound_tours2<-inbound_tours[,2:10]
+
 colors <- rainbow(length(inbound_tours$Страна))
 #par(mfrow=c(1,9))
 
@@ -103,7 +103,7 @@ ggplot(all_inbound_tours, aes(x = Страна, y = ОбщееКоличеств
 #ВЫЕЗДНЫЕ
 
 field_tours<-read_excel("Выездные турпоездки.xlsx")
-#inbound_tours2<-inbound_tours[,2:10]
+
 field_tours_colors <- rainbow(length(field_tours$Страна))
 
 #пироговые диаграммы числа выездных туристских поездок граждан России в зарубежные страны
@@ -333,4 +333,3 @@ ggplot(tourism_facilities_long, aes(x = Год, y = Значение, fill = Н�
        x = "Год",
        y = "Значение") +
   theme_bw()
-
