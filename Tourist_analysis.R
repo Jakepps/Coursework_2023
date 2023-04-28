@@ -85,7 +85,7 @@ legend("topleft", legend = inbound_tours$Страна[1:(nrow(inbound_tours)/2)]
        fill = colors[1:length(colors)/2], cex = 0.47)
 legend("topright", legend = inbound_tours$Страна[(nrow(inbound_tours)/2 + 1):nrow(inbound_tours)],
        fill = colors[(length(colors)/2 + 1):length(colors)], cex = 0.47)
-
+#TODO:столбчатые сделать 
 #Общее количество приезжих по страннам за 9 лет
 inbound_tours<-read_excel("Въездные турпоездки.xlsx")
 
@@ -199,24 +199,6 @@ Colors_in_russian <- c("black", Colors_in_russian[-1])
 
 In_Russian_2022<-data.frame(Округ=In_Russian$Округа, ОбщееКоличество=In_Russian$'2022')
 
-#без ggplot
-#если убрать выбросы жесткие,  1000
-
-In_Russian_2022<- In_Russian_2022[In_Russian_2022$ОбщееКоличество/1000<1000,]
-
-plot(In_Russian_2022$ОбщееКоличество/1000, type="n", xaxt="n", xlim=c(0,length(In_Russian_2022$Округ)+20), 
-     ylim=c(0,max(In_Russian_2022$ОбщееКоличество/1000)), xlab='', ylab="Количество человек (тыс.)",
-     main="Общее количесво человек, путешевствующих по областям в 2022 году")
-points(1:nrow(In_Russian_2022), In_Russian_2022$ОбщееКоличество/1000, type="b", pch=19, col=Colors_in_russian)
-axis(side = 1, at = 1:nrow(In_Russian_2022), tcl = 0.2, labels = FALSE)
-
-legend("topright", legend = In_Russian$Округа[1:(nrow(In_Russian)/2)],
-       fill = Colors_in_russian[1:length(Colors_in_russian)/2], cex = 0.25)
-legend(x=60, y = max(In_Russian_2022$ОбщееКоличество/1000), legend = In_Russian$Округа[(nrow(In_Russian)/2 + 1):nrow(In_Russian)],
-       fill = Colors_in_russian[(length(Colors_in_russian)/2 + 1):length(Colors_in_russian)], cex = 0.25)
-#x = 68, y = 20900
-
-#с ggplot
 In_Russian_2022 <- In_Russian_2022[In_Russian_2022$ОбщееКоличество/1000 < 1000,]
 
 ggplot(In_Russian_2022, aes(x = Округ, y = ОбщееКоличество / 1000, fill = Округ)) +
@@ -227,6 +209,7 @@ ggplot(In_Russian_2022, aes(x = Округ, y = ОбщееКоличество /
   theme(legend.position = "bottom",axis.text.x = element_blank())
 
 #Путешествия по россии за 2022 общее по округам
+#TODO:сделать стоблчатым
 In_Russian_all <- read_excel("Внутри России общее.xlsx")
 In_Russian_all <- In_Russian_all %>% mutate(row = row_number())
 
@@ -333,3 +316,6 @@ ggplot(tourism_facilities_long, aes(x = Год, y = Значение, fill = Н�
        x = "Год",
        y = "Значение") +
   theme_bw()
+
+
+#TODO: по квартала, по сезонам
