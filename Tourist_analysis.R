@@ -2,13 +2,13 @@ library(readxl)
 library(tidyr)
 library(ggplot2)
 library(dplyr)
+library(RColorBrewer)
 
 #для компа
 setwd("C:/Users/nagal/OneDrive/GitHub/Coursework_2023/Данные")
 #для ноута 
 #setwd("C:/Users/jakep/GitHub/Coursework_2023/Данные")
 
-#TODO:столбчатые сделать
 #ВЪЕЗДНЫЕ
 inbound_tours<-read_excel("Въездные турпоездки.xlsx")
 #colors <- rainbow(length(inbound_tours$Страна))
@@ -77,6 +77,7 @@ ggplot(all_field_tours, aes(x = Страна, y = ОбщееКоличество
   theme_bw()
 
 #Путешествие в России
+#TODO: кластеризация
 In_Russian<-read_excel("Внутри России.xlsx")
 
 Colors_in_russian <- rainbow(length(In_Russian$Округа))
@@ -94,27 +95,15 @@ ggplot(In_Russian_2022, aes(x = Округ, y = ОбщееКоличество /
   theme(legend.position = "bottom",axis.text.x = element_blank())
 
 #Путешествия по россии за 2022 общее по округам
-#TODO:сделать стоблчатым
 In_Russian_all <- read_excel("Внутри России общее.xlsx")
-In_Russian_all <- In_Russian_all %>% mutate(row = row_number())
+colors <- brewer.pal(8, "Dark2")
 
-Color_in_Russian_all <- rainbow(length(In_Russian_all$Округа))
-
-ggplot(In_Russian_all, aes(x = row, y = `2022` / 1000, color = Округа, group = 1)) +
-  geom_line(color = "black", size = 0.3) +
-  geom_point(shape = 19) +
-  scale_x_continuous(name = "", breaks = 1:nrow(In_Russian_all)) +
-  scale_y_continuous(name = "Количество человек (тыс.)", limits = c(0, max(In_Russian_all$'2022'/1000))) +
-  labs(title = "Общее количесво человек, путешевствующих по общим областям в 2022 году") +
-  theme_bw() +
-  guides(color=guide_legend(title="Округа")) + 
-  scale_color_manual(name = "Округа", values = Color_in_Russian_all)
-
-
-legend <- In_Russian_all %>% select(Округа) %>% unique()
-ggplot2::guides(color=guide_legend(title="Округа")) + 
-  scale_color_manual(name = "Округа", values = Color_in_Russian_all) 
-
+ggplot(In_Russian_all, aes(x = Округ, y = Количество/1000, fill = Округ)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = colors) +
+  labs(title = "Количество путешественников в округах России",
+       x = "Округ", y = "Количество путешественников(в тыс.)") +
+  guides(fill = FALSE)
 
 #Туриндустрия
 
@@ -203,4 +192,4 @@ ggplot(tourism_facilities_long, aes(x = Год, y = Значение, fill = Н�
   theme_bw()
 
 
-#TODO: по квартала, по сезонам
+#TODO: по кварталам, по сезонам
