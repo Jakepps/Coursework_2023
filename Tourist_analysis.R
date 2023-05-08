@@ -192,4 +192,57 @@ ggplot(tourism_facilities_long, aes(x = Год, y = Значение, fill = Н�
   theme_bw()
 
 
-#TODO: по кварталам, по сезонам
+#по кварталам, по сезонам
+
+season<-read_excel("По сезонам.xlsx")
+
+season_long <- season %>%
+  gather(key = "Квартал", value = "Количество", -Округ) %>%
+  mutate(Квартал = factor(Квартал, levels = c("1 квартал", "2 квартал", "3 квартал", "4 квартал","Холодные","Теплые")))
+
+season_long <- season_long %>% 
+  mutate(Количество = Количество / 1000)
+
+# для кварталов 2 и 3
+season_23 <- season_long %>%
+  filter(Квартал %in% c("2 квартал", "3 квартал"))
+
+ggplot(season_23, aes(x = Округ, y = Количество/1000, fill = Квартал)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Количество путешественников по округам во 2 и 3 кварталах",
+       x = "Округ",
+       y = "Количество путешественников (тыс.)") +
+  scale_fill_manual(values =  c("#E69F00", "#56B4E9")) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 1, size = 9)) +
+  scale_x_discrete(limits = unique(season_23$Округ), expand = c(0, 0.5))
+
+# для кварталов 1 и 4
+season_14 <- season_long %>%
+  filter(Квартал %in% c("1 квартал", "4 квартал"))
+
+ggplot(season_14, aes(x = Округ, y = Количество/1000, fill = Квартал)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Количество путешественников по округам во 1 и 4 кварталах (холодные)",
+       x = "Округ",
+       y = "Количество путешественников (тыс.)") +
+  scale_fill_manual(values =  c("#FF8000", "#A6CEE3")) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 1, size = 9)) +
+  scale_x_discrete(limits = unique(season_14$Округ), expand = c(0, 0.5))
+
+# для кварталов холодных и теплых
+season_cold_warm <- season_long %>%
+  filter(Квартал %in% c("Холодные", "Теплые"))
+
+ggplot(season_cold_warm, aes(x = Округ, y = Количество/1000, fill = Квартал)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Количество путешественников по округам холодные и теплые",
+       x = "Округ",
+       y = "Количество путешественников (тыс.)") +
+  scale_fill_manual(values =  c("#A6CEE3", "#FF8000")) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 1, size = 9)) +
+  scale_x_discrete(limits = unique(season_cold_warm$Округ), expand = c(0, 0.5))
+
+
