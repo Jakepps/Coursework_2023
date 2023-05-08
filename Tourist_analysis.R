@@ -3,6 +3,8 @@ library(tidyr)
 library(ggplot2)
 library(dplyr)
 library(RColorBrewer)
+library(factoextra)
+library(dendextend)
 
 #для компа
 setwd("C:/Users/nagal/OneDrive/GitHub/Coursework_2023/Данные")
@@ -77,7 +79,6 @@ ggplot(all_field_tours, aes(x = Страна, y = ОбщееКоличество
   theme_bw()
 
 #Путешествие в России
-#TODO: кластеризация
 In_Russian<-read_excel("Внутри России.xlsx")
 
 Colors_in_russian <- rainbow(length(In_Russian$Округа))
@@ -93,6 +94,28 @@ ggplot(In_Russian_2022, aes(x = Округ, y = ОбщееКоличество /
   labs(title = "Общее количесво человек, путешевствующих по областям в 2022 году") +
   theme_bw() +
   theme(legend.position = "bottom",axis.text.x = element_blank())
+
+#TODO: кластеризация
+
+In_Russian_clast <- select(In_Russian, -Округа)
+
+In_Russian_clast_scaled <- scale(In_Russian_clast)
+
+hc <- hclust(dist(In_Russian_clast_scaled), method = "ward.D2")
+
+plot(hc, labels = In_Russian$Округа, main="Дендограмма",ylab="Сходство",xlab="Округа")
+
+rect.hclust(hc, 3, border="red")
+abline(h = 1.5, col = "blue", lwd='2') 
+
+dend <- as.dendrogram(hc)
+dend <- color_branches(dend, 3) 
+plot(dend)
+
+groups <- cutree(hc, 3) 
+In_Russian[groups==1, 1]
+In_Russian[groups==2, 1]
+In_Russian[groups==3, 1]
 
 #Путешествия по россии за 2022 общее по округам
 In_Russian_all <- read_excel("Внутри России общее.xlsx")
