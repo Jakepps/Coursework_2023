@@ -245,4 +245,26 @@ ggplot(season_cold_warm, aes(x = Округ, y = Количество/1000, fill
   theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 1, size = 9)) +
   scale_x_discrete(limits = unique(season_cold_warm$Округ), expand = c(0, 0.5))
 
+#по кварталам, по сезонам(общее)
 
+season_all<-read_excel("По сезонам общее.xlsx")
+
+season_long_all <- season_all %>%
+  gather(key = "Квартал", value = "Количество", -Округ) %>%
+  mutate(Квартал = factor(Квартал, levels = c("1 квартал", "2 квартал", "3 квартал", "4 квартал","Холодные","Теплые")))
+
+season_long_all <- season_long_all %>% 
+  mutate(Количество = Количество / 1000)
+
+# для кварталов 2 и 3
+season_23_all <- season_long_all %>%
+  filter(Квартал %in% c("Холодные", "Теплые"))
+
+ggplot(season_23_all, aes(x = Округ, y = Количество/1000, fill = Квартал)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Количество путешественников по округам в холодные и теплые",
+       x = "Округ",
+       y = "Количество путешественников (тыс.)") +
+  scale_fill_manual(values =  c("#56B4E9", "#E69F00")) +
+  theme_bw()  +
+  scale_x_discrete(limits = unique(season_23_all$Округ), expand = c(0, 0.5))
