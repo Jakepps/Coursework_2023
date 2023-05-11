@@ -86,7 +86,7 @@ Colors_in_russian <- c("black", Colors_in_russian[-1])
 
 In_Russian_2022<-data.frame(Округ=In_Russian$Округа, ОбщееКоличество=In_Russian$'2022')
 
-In_Russian_2022 <- In_Russian_2022[In_Russian_2022$ОбщееКоличество/1000 < 1000,]
+#In_Russian_2022 <- In_Russian_2022[In_Russian_2022$ОбщееКоличество/1000 < 1000,]
 
 ggplot(In_Russian_2022, aes(x = Округ, y = ОбщееКоличество / 1000, fill = Округ)) +
   geom_bar(stat = "identity", position = "dodge") +
