@@ -5,6 +5,7 @@ library(dplyr)
 library(RColorBrewer)
 library(factoextra)
 library(dendextend)
+library(randomcoloR)
 
 #для компа
 setwd("C:/Users/nagal/OneDrive/GitHub/Coursework_2023/Данные")
@@ -14,6 +15,18 @@ setwd("C:/Users/nagal/OneDrive/GitHub/Coursework_2023/Данные")
 #ВЪЕЗДНЫЕ
 inbound_tours<-read_excel("Въездные турпоездки.xlsx")
 #colors <- rainbow(length(inbound_tours$Страна))
+
+colors <- c("#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#00FFFF", "#FF00FF", "#800000", 
+            "#008000", "#000080", "#808000", "#008080", "#800080", "#FFA07A", "#20B2AA", 
+            "#B0E0E6", "#BA55D3", "#BC8F8F", "#C71585", "#00BFFF", "#F4A460", "#FFFACD", 
+            "#F08080", "#E6E6FA", "#D3D3D3", "#696969", "#800000", "#A9A9A9", "#000000", 
+            "#00FF00", "#800080", "#FF4500", "#1E90FF", "#F0E68C", "#DAA520", "#808080", 
+            "#00CED1", "#FFDAB9", "#FF1493", "#191970", "#BDB76B", "#7FFF00", "#CD853F", 
+            "#FFC0CB", "#D2691E", "#4682B4", "#B0C4DE", "#DDA0DD", "#F5DEB3", "#DEB887", 
+            "#9ACD32", "#FFF0F5", "#FF8C00", "#87CEFA", "#7B68EE", "#FF69B4", "#B22222", 
+            "#F0FFFF", "#00FF7F", "#32CD32", "#FFD700", "#FDF5E6", "#FF00FF", "#ADD8E6", 
+            "#FFFFE0", "#FFA500", "#FFFAFA")
+
 
 inbound_tours_long <- inbound_tours %>%
   gather(key = "Год", value = "number_of_travelers", -Страна) %>%
@@ -27,6 +40,7 @@ ggplot(inbound_tours_long, aes(x = Год, y = Общее_количество, 
   scale_y_continuous(name = "Количество приезжих", limits = c(0, max(inbound_tours_long$Общее_количество))) +
   labs(title = "Количество приезжих из каждой страны за все года",
        x = "Год", y = "Количество приезжих") +
+  scale_fill_manual(values = colors) +
   theme_bw()
 
 
@@ -62,8 +76,8 @@ ggplot(field_tours_long, aes(x = Год, y = Общее_количество, fi
   scale_y_continuous(name = "Количество граждан", limits = c(0, max(field_tours_long$Общее_количество))) +
   labs(title = "Количество выездных граждан России в страны за все года",
        x = "Год", y = "Количество граждан") +
+  scale_fill_manual(values = colors) +
   theme_bw()
-
 
 #Общее количество уезжих по страннам за 9 лет
 all_field_tours <- data.frame(Страна = field_tours$Страна, 
@@ -81,29 +95,30 @@ ggplot(all_field_tours, aes(x = Страна, y = ОбщееКоличество
 #Путешествие в России
 In_Russian<-read_excel("Внутри России.xlsx")
 
-Colors_in_russian <- rainbow(length(In_Russian$Округа))
-Colors_in_russian <- c("black", Colors_in_russian[-1])
+set.seed(123)
+colors <- randomColor(count = 87, luminosity = "bright")
+#Colors_in_russian <- rainbow(length(In_Russian$Округ))
+#In_Russian <- In_Russian[In_Russian$ОбщееКоличество/1000 < 1000,]
 
-In_Russian_2022<-data.frame(Округ=In_Russian$Округа, ОбщееКоличество=In_Russian$'2022')
-
-#In_Russian_2022 <- In_Russian_2022[In_Russian_2022$ОбщееКоличество/1000 < 1000,]
-
-ggplot(In_Russian_2022, aes(x = Округ, y = ОбщееКоличество / 1000, fill = Округ)) +
+ggplot(In_Russian, aes(x = Округ, y = ОбщееКоличество / 1000, fill = Округ)) +
   geom_bar(stat = "identity", position = "dodge") +
-  scale_y_continuous(name = "Количество человек (тыс.)", limits = c(0, max(In_Russian_2022$ОбщееКоличество/1000))) +
+  scale_y_continuous(name = "Количество человек (тыс.)", limits = c(0, max(In_Russian$ОбщееКоличество/1000))) +
   labs(title = "Общее количесво человек, путешевствующих по областям в 2022 году") +
   theme_bw() +
-  theme(legend.position = "bottom",axis.text.x = element_blank())
+  theme(legend.position = "bottom",axis.text.x = element_blank()) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1, size = 9)) +
+  scale_x_discrete(limits = unique(In_Russian$Округ), expand = c(0, 0.5))+
+  guides(fill = FALSE)
 
-#TODO: кластеризация
+#кластеризация
 
-In_Russian_clast <- select(In_Russian, -Округа)
+In_Russian_clast <- select(In_Russian, -Округ)
 
 In_Russian_clast_scaled <- scale(In_Russian_clast)
 
 hc <- hclust(dist(In_Russian_clast_scaled), method = "ward.D2")
 
-plot(hc, labels = In_Russian$Округа, main="Дендограмма",ylab="Сходство",xlab="Округа")
+plot(hc, labels = In_Russian$Округ, main="Дендограмма",ylab="Сходство",xlab="Округа")
 
 rect.hclust(hc, 3, border="red")
 abline(h = 1.5, col = "blue", lwd='2') 
@@ -265,7 +280,7 @@ ggplot(season_cold_warm, aes(x = Округ, y = Количество/1000, fill
        y = "Количество путешественников (тыс.)") +
   scale_fill_manual(values =  c("#A6CEE3", "#FF8000")) +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 1, size = 9)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1, size = 9)) +
   scale_x_discrete(limits = unique(season_cold_warm$Округ), expand = c(0, 0.5))
 
 #по кварталам, по сезонам(общее)
@@ -279,7 +294,7 @@ season_long_all <- season_all %>%
 season_long_all <- season_long_all %>% 
   mutate(Количество = Количество / 1000)
 
-# для кварталов 2 и 3
+# для кварталов холодных и теплых
 season_23_all <- season_long_all %>%
   filter(Квартал %in% c("Холодные", "Теплые"))
 
