@@ -14,7 +14,6 @@ setwd("C:/Users/nagal/OneDrive/GitHub/Coursework_2023/Данные")
 
 #ВЪЕЗДНЫЕ
 inbound_tours<-read_excel("Въездные турпоездки.xlsx")
-#colors <- rainbow(length(inbound_tours$Страна))
 
 colors <- c("#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#00FFFF", "#FF00FF", "#800000", 
             "#008000", "#000080", "#808000", "#008080", "#800080", "#FFA07A", "#20B2AA", 
@@ -33,26 +32,25 @@ inbound_tours_long <- inbound_tours %>%
   group_by(Страна, Год) %>%
   summarise(Общее_количество = sum(number_of_travelers))
 
-#inbound_tours_long <- inbound_tours_long[inbound_tours_long$Общее_количество < 2000,]
+#inbound_tours_long <- inbound_tours_long[inbound_tours_long$Общее_количество > 2500,]
 
 ggplot(inbound_tours_long, aes(x = Год, y = Общее_количество, fill = Страна)) +
   geom_bar(stat = "identity", position = "dodge") +
-  scale_y_continuous(name = "Количество приезжих", limits = c(0, max(inbound_tours_long$Общее_количество))) +
-  labs(title = "Количество приезжих из каждой страны за все года",
-       x = "Год", y = "Количество приезжих") +
+  scale_y_continuous(name = "Количество въезжающих туристов", limits = c(0, max(inbound_tours_long$Общее_количество))) +
+  labs(title = "Количество въезжающих туристов из каждой страны за все года",
+       x = "Год", y = "Количество въезжающих туристов") +
   scale_fill_manual(values = colors) +
+  guides(fill=FALSE)+
   theme_bw()
 
 
 #Общее количество приезжих по страннам за 9 лет
-inbound_tours<-read_excel("Въездные турпоездки.xlsx")
-
 all_inbound_tours<-data.frame(Страна=inbound_tours$Страна, ОбщееКоличество=rowSums(inbound_tours[,2:10]))
 
 ggplot(all_inbound_tours, aes(x = Страна, y = ОбщееКоличество)) +
   geom_bar(stat = "identity", fill = "navyblue", color = "black") +
   labs(x = "", y = "Количество человек", 
-       title = "Общее количество приезжих по страннам за 9 лет") +
+       title = "Общее количество въезжающих туристов по странам за 9 лет") +
   scale_x_discrete(labels = all_inbound_tours$Страна, 
                    limits = all_inbound_tours$Страна) +
   coord_flip() +
