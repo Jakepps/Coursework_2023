@@ -103,7 +103,7 @@ colors <- randomColor(count = 87, luminosity = "bright")
 ggplot(In_Russian, aes(x = Округ, y = ОбщееКоличество / 1000, fill = Округ)) +
   geom_bar(stat = "identity", position = "dodge") +
   scale_y_continuous(name = "Количество человек (тыс.)", limits = c(0, max(In_Russian$ОбщееКоличество/1000))) +
-  labs(title = "Количесво человек, путешевствующих граждан по областям в 2022 году") +
+  labs(title = "Количесво человек, путешевствующих по областям в 2022 году") +
   theme_bw() +
   theme(legend.position = "bottom",axis.text.x = element_blank()) +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1, size = 9)) +
@@ -139,7 +139,7 @@ colors <- brewer.pal(8, "Dark2")
 ggplot(In_Russian_all, aes(x = Округ, y = Количество/1000, fill = Округ)) +
   geom_bar(stat = "identity") +
   scale_fill_manual(values = colors) +
-  labs(title = "Количесво человек, путешевствующих граждан в округах России в 2022 году",
+  labs(title = "Количесво человек, путешевствующих в округах России в 2022 году",
        x = "Округ", y = "Количество человек(в тыс.)") +
   guides(fill = FALSE)
 
@@ -189,7 +189,7 @@ season_cold_warm <- season_long %>%
 
 ggplot(season_cold_warm, aes(x = Округ, y = Количество/1000, fill = Квартал)) +
   geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Количество путешественников по округам холодные и теплые",
+  labs(title = "Количество человек, путешевствующих по округам в холодные и теплые сезоны",
        x = "Округ",
        y = "Количество путешественников (тыс.)") +
   scale_fill_manual(values =  c("#A6CEE3", "#FF8000")) +
@@ -214,7 +214,7 @@ season_23_all <- season_long_all %>%
 
 ggplot(season_23_all, aes(x = Округ, y = Количество/1000, fill = Квартал)) +
   geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Количество путешественников по округам в холодные и теплые",
+  labs(title = "Количество человек, путешевствующих по округам в холодные и теплые",
        x = "Округ",
        y = "Количество путешественников (тыс.)") +
   scale_fill_manual(values =  c("#56B4E9", "#E69F00")) +
