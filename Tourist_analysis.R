@@ -37,7 +37,7 @@ inbound_tours_long <- inbound_tours %>%
 ggplot(inbound_tours_long, aes(x = Год, y = Общее_количество, fill = Страна)) +
   geom_bar(stat = "identity", position = "dodge") +
   scale_y_continuous(name = "Количество въезжающих туристов", limits = c(0, max(inbound_tours_long$Общее_количество))) +
-  labs(title = "Количество въезжающих туристов из каждой страны за все года",
+  labs(title = "Количество въезжающих туристов из каждой страны в период с 2014 по 2022 года.",
        x = "Год", y = "Количество въезжающих туристов") +
   scale_fill_manual(values = colors) +
   #guides(fill=FALSE)+
@@ -73,7 +73,7 @@ field_tours_long <- field_tours %>%
 ggplot(field_tours_long, aes(x = Год, y = Общее_количество, fill = Страна)) +
   geom_bar(stat = "identity", position = "dodge") +
   scale_y_continuous(name = "Количество граждан", limits = c(0, max(field_tours_long$Общее_количество))) +
-  labs(title = "Количество выездных граждан России в страны за все года",
+  labs(title = "Количество выездных граждан России в страны в период с 2014 по середину 2022 года.",
        x = "Год", y = "Количество человек") +
   scale_fill_manual(values = colors) +
   #guides(fill=FALSE)+
